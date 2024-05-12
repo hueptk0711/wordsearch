@@ -24,12 +24,12 @@ MEDIA_URL = '/media/'
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('SECRET_KEY')
+SECRET_KEY = 'django-insecure-a%u1v00u@y6j1i9^1vfgl22#g38)w^gk)6ma^8^q$)%4q9a!_w'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DEBUG', 'True')=="True"
+DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'word-search-cyyg.onrender.com']
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -46,6 +46,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -78,20 +79,12 @@ WSGI_APPLICATION = 'myproject.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-if not DEBUG:
-    DATABASES = {
-        'default':dj_database_url.parse(os.environ.get(DATABASE_URL))
-    }
-else:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql',
-            'NAME':  'postgres',
-            'USER': 'postgres',
-            'PASSWORD': 'uet@#vnu',
-            'HOST': 'localhost'
-        }
-    }
+DATABASES = {
+    'default': dj_database_url.config(
+        # Replace this value with your local database's connection string.
+        default='postgres://wordsearch_db_user:D2OBDF8QWcv5M3stRzdSLRC117lqRz7l@dpg-cp0e1c21hbls73e8tfrg-a.oregon-postgres.render.com/wordsearch_db'
+    )
+}
 
 
 # Password validation
@@ -129,6 +122,13 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = 'static/'
+if not DEBUG:
+    # Tell Django to copy static assets into a path called `staticfiles` (this is specific to Render)
+    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+    # Enable the WhiteNoise storage backend, which compresses static files to reduce disk use
+    # and renames the files with unique names for each version to support long-term caching
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+    
 STATICFILES_DIRS = (os.path.join(BASE_DIR,'static'),)
 
 # Default primary key field type
