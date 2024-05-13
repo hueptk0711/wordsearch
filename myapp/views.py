@@ -105,7 +105,7 @@ def generate(request):
         user = request.user
         username = user.username
         account = 'accounts/' + username
-        user_folder = os.path.join(settings.MEDIA_ROOT, user1)
+        user_folder = os.path.join(settings.MEDIA_ROOT, account)
         if not os.path.exists(user_folder):
             os.makedirs(user_folder, exist_ok=True)
         path = os.path.join(user_folder, pdf_filename)  # Ensure this path matches your createPuzzle function
