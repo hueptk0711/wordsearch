@@ -217,9 +217,9 @@
     });
 
     // Check if the username already exists and show alert if needed
-    {% if user_exists %}
+    { % if user_exists % }
         showAlert("Username already exists.");
-    {% endif %}
+    { % endif % }
 
     // Check if the email already exists and show alert if needed
     {% if email_exists %}
