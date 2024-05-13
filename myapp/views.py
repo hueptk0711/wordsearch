@@ -138,7 +138,7 @@ def generate(request):
         pdf_history.save()  
         return render(request, 'wordsearch.html', {
             'message': 'Puzzle created and saved successfully!',
-            'image' : img_path, 'media_url':settings.MEDIA_URL,
+            'image' : img_path,
             'pdf_filename': pdf_filename,
         })
 
