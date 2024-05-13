@@ -104,8 +104,7 @@ def generate(request):
         # Path of the generated PDF
         user = request.user
         username = user.username
-        account = 'accounts/' + username
-        user_folder = os.path.join(settings.MEDIA_ROOT, account)
+        user_folder = os.path.join(settings.STATIC_ROOT, username)
         if not os.path.exists(user_folder):
             os.makedirs(user_folder, exist_ok=True)
         path = os.path.join(user_folder, pdf_filename)  # Ensure this path matches your createPuzzle function
@@ -122,7 +121,7 @@ def generate(request):
         # convert first page of pdf to image to display on the website
         pages = convert_from_path(path, first_page=1, last_page=1)
         img_name = f"{timestamp}.png"
-        media_folder = os.path.join(settings.MEDIA_ROOT, account)
+        media_folder = os.path.join(settings.STATIC_ROOT, username)
         if not os.path.exists(media_folder):
             os.makedirs(media_folder, exist_ok=True)
         # D:\VSC\word-search-AI\myproject\static\media\accounts
@@ -158,8 +157,7 @@ def download(request, pdf_filename):
     # Construct the path to the PDF file in the media folder
     user = request.user
     username = user.username
-    account = 'accounts/' + username
-    pdf_path = os.path.join(settings.MEDIA_ROOT, account, pdf_filename)
+    pdf_path = os.path.join(settings.STATIC_ROOT, username, pdf_filename)
     
     # Ensure the file exists before trying to download
     if not os.path.exists(pdf_path):
