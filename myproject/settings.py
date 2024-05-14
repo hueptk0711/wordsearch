@@ -16,8 +16,6 @@ import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-MEDIA_ROOT = os.path.join(BASE_DIR, '/media')
-MEDIA_URL = '/media/'
 
 # deploy: https://docs.djangoproject.com/en/5.0/howto/deployment/
 # Quick-start development settings - unsuitable for production
@@ -29,7 +27,7 @@ SECRET_KEY = 'django-insecure-a%u1v00u@y6j1i9^1vfgl22#g38)w^gk)6ma^8^q$)%4q9a!_w
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['word-search-cyyg.onrender.com']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost','word-search-cyyg.onrender.com']
 
 
 # Application definition
@@ -128,6 +126,8 @@ USE_TZ = True
 STATIC_URL = 'static/'
 STATIC_ROOT = BASE_DIR/'assets'
 STATICFILES_DIRS = (os.path.join(BASE_DIR,'static'),)
+MEDIA_URL = 'media/'
+MEDIA_ROOT = BASE_DIR/'accounts'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
