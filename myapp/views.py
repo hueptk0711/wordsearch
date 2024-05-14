@@ -117,9 +117,12 @@ def generate(request):
             puzzle = createPuzzle(name, lesson, grade, shape, level)
             puzzle.save(path, solution=False)
 
-
-        # convert first page of pdf to image to display on the website
-        pages = convert_from_path(path, first_page=1, last_page=1)
+        # save as image
+        '''
+        if pages:
+            first_page = pages[0]
+            first_page.save(img_path, 'PNG')
+        '''
         img_name = f"{timestamp}.png"
         media_folder = os.path.join(settings.MEDIA_ROOT, username)
         if not os.path.exists(media_folder):
@@ -127,11 +130,11 @@ def generate(request):
         # D:\VSC\word-search-AI\myproject\static\media\accounts
         img_path = os.path.join(media_folder, img_name)
 
-        # save as image
-        if pages:
-            first_page = pages[0]
-            first_page.save(img_path, 'PNG')
-
+        # convert first page of pdf to image to display on the website
+        pages = convert_from_path(path, 500)
+        pages = convert_from_path(path, 500, single_file=True)
+        pages[0].save(img_path, 'PNG')
+        
         # Save the generated PDF to the model PDFHistory
         pdf_history = PDFHistory(user=user, pdf=path, image = img_path)
         pdf_history.save()  
