@@ -105,12 +105,10 @@ def generate(request):
         # Path of the generated PDF
         user = request.user
         username = user.username
-        '''
         user_folder = os.path.join(settings.MEDIA_ROOT, username)
         if not os.path.exists(user_folder):
             os.makedirs(user_folder, exist_ok=True)
-        '''
-        path = os.path.join(settings.MEDIA_ROOT, pdf_filename)  # Ensure this path matches your createPuzzle function
+        path = os.path.join(user_folder, pdf_filename)  # Ensure this path matches your createPuzzle function
 
         # create puzzle
         if (create == 'answer'):    
@@ -128,10 +126,10 @@ def generate(request):
             first_page.save(img_path, 'PNG')
         '''
         img_name = f"{timestamp}.png"
-        '''media_folder = os.path.join(settings.MEDIA_ROOT, username)
+        media_folder = os.path.join(settings.MEDIA_ROOT, username)
         if not os.path.exists(media_folder):
             os.makedirs(media_folder, exist_ok=True)
-        '''
+        # D:\VSC\word-search-AI\myproject\static\media\accounts
         img_path = os.path.join(settings.MEDIA_ROOT, img_name)
 
         # convert first page of pdf to image to display on the website
@@ -146,7 +144,7 @@ def generate(request):
         pdf_history.save()  
         return render(request, 'wordsearch.html', {
             'message': 'Puzzle created and saved successfully!',
-            'image' : img_name,
+            'image' : img_path,
             'pdf_filename': pdf_filename,
         })
 
@@ -166,7 +164,7 @@ def download(request, pdf_filename):
     # Construct the path to the PDF file in the media folder
     user = request.user
     username = user.username
-    pdf_path = os.path.join(settings.MEDIA_ROOT, pdf_filename)
+    pdf_path = os.path.join(settings.MEDIA_ROOT, username, pdf_filename)
     
     # Ensure the file exists before trying to download
     if not os.path.exists(pdf_path):
