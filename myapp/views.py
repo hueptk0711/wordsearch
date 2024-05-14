@@ -9,6 +9,7 @@ import datetime
 import io
 import os
 import sys
+import fitz
 
 print(sys.executable)
 
@@ -119,6 +120,7 @@ def generate(request):
 
         # save as image
         '''
+        pages = convert_from_path(path, 500)
         if pages:
             first_page = pages[0]
             first_page.save(img_path, 'PNG')
@@ -131,9 +133,11 @@ def generate(request):
         img_path = os.path.join(media_folder, img_name)
 
         # convert first page of pdf to image to display on the website
-        pages = convert_from_path(path, 500)
-        pages = convert_from_path(path, 500, single_file=True)
-        pages[0].save(img_path, 'PNG')
+        doc = fitz.open(path)
+        page = doc.load_page(0)
+        pix = page.get_pixmap()
+        pix.save(img_path)
+        doc.close()
         
         # Save the generated PDF to the model PDFHistory
         pdf_history = PDFHistory(user=user, pdf=path, image = img_path)
