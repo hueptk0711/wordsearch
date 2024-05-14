@@ -157,7 +157,7 @@ def download(request, pdf_filename):
     # Construct the path to the PDF file in the media folder
     user = request.user
     username = user.username
-    pdf_path = os.path.join(settings.STATIC_ROOT, username, pdf_filename)
+    pdf_path = os.path.join(settings.MEDIA_ROOT, username, pdf_filename)
     
     # Ensure the file exists before trying to download
     if not os.path.exists(pdf_path):
