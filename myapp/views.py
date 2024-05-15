@@ -9,7 +9,7 @@ import datetime
 import io
 import os
 import sys
-import fitz
+import PyPDF2
 
 print(sys.executable)
 
@@ -118,34 +118,27 @@ def generate(request):
             puzzle = createPuzzle(name, lesson, grade, shape, level)
             puzzle.save(path, solution=False)
 
-        # save as image
-        '''
-        pages = convert_from_path(path, 500)
-        if pages:
-            first_page = pages[0]
-            first_page.save(img_path, 'PNG')
-        '''
+
         img_name = f"{timestamp}.png"
         media_folder = os.path.join(settings.MEDIA_ROOT, username)
         if not os.path.exists(media_folder):
             os.makedirs(media_folder, exist_ok=True)
         # D:\VSC\word-search-AI\myproject\static\media\accounts
         img_path = os.path.join(settings.MEDIA_ROOT, img_name)
-
-        # convert first page of pdf to image to display on the website
-        doc = fitz.open(path)
-        page = doc.load_page(0)
-        pix = page.get_pixmap()
-        pix.save(img_path)
-        doc.close()
         
+        # save as image
+        pages = convert_from_path(path, first_page=1, last_page=1)
+        if pages:
+            first_page = pages[0]
+            first_page.save(img_path, 'PNG')
+
         # Save the generated PDF to the model PDFHistory
         pdf_history = PDFHistory(user=user, pdf=path, image = img_path)
         pdf_history.save()  
         return render(request, 'wordsearch.html', {
             'message': 'Puzzle created and saved successfully!',
             'image' : img_path,
-            'pdf_filename': img_path,
+            'pdf_filename': pdf_filename,
         })
 
     return render(request, 'wordsearch.html')
