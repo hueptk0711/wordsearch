@@ -108,7 +108,7 @@
     </div>
     <div class="image-display">
       {% if image %}
-        <img class="img" src="{{image}}" alt="logo">
+        <img class="img" src="{{media_url}}{{image}}" alt="logo">
       {% else %}
         <img class="img" src="{% static '/imageWS.jpg' %}" alt="logo">
       {% endif %}

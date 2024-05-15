@@ -133,16 +133,12 @@ def generate(request):
             first_page = pages[0]
             first_page.save(img_path, 'PNG')
 
-        if os.path.exists(img_path):
-            print("Image exists")
-        else:
-            print("Image does not exist")
         # Save the generated PDF to the model PDFHistory
         pdf_history = PDFHistory(user=user, pdf=path, image = img_path)
         pdf_history.save()  
         return render(request, 'wordsearch.html', {
             'message': 'Puzzle created and saved successfully!',
-            'image' : img_path,
+            'image' : img_path,'media_url':settings.MEDIA_URL,
             'pdf_filename': pdf_filename,
         })
 
