@@ -10,6 +10,7 @@ import io
 import os
 import sys
 import fitz
+import stat
 
 print(sys.executable)
 
@@ -132,7 +133,7 @@ def generate(request):
             print('exit')
             first_page = pages[0]
             first_page.save(img_path, 'PNG')
-            print(img_path)
+            os.chmod(img_path, stat.S_IRUSR | stat.S_IWUSR | stat.S_IRGRP | stat.S_IROTH)
 
         # Save the generated PDF to the model PDFHistory
         pdf_history = PDFHistory(user=user, pdf=path, image = img_path)
