@@ -9,7 +9,7 @@ import datetime
 import io
 import os
 import sys
-import PyPDF2
+import fitz
 
 print(sys.executable)
 
