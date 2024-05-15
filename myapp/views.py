@@ -134,7 +134,7 @@ def generate(request):
             first_page = pages[0]
             first_page.save(img_path, 'PNG')
             absolute_img_path = os.path.abspath(img_path)
-            logging.info(f"Image saved at {absolute_img_path}")
+            print(f"Image saved at {absolute_img_path}")
 
         # Save the generated PDF to the model PDFHistory
         pdf_history = PDFHistory(user=user, pdf=path, image = img_path)
