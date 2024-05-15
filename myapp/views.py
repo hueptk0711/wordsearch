@@ -128,14 +128,15 @@ def generate(request):
         img_path = os.path.join(media_folder, img_name)
         
         # save as image
-        pages = convert_from_path(path, first_page=1, last_page=1)
+        pages = convert_from_path(path)
         if pages:
-            print('exit')
             first_page = pages[0]
             first_page.save(img_path, 'PNG')
-            absolute_img_path = os.path.abspath(img_path)
-            print(f"Image saved at {absolute_img_path}")
 
+        if os.path.exists(img_path):
+            print("Image exists")
+        else:
+            print("Image does not exist")
         # Save the generated PDF to the model PDFHistory
         pdf_history = PDFHistory(user=user, pdf=path, image = img_path)
         pdf_history.save()  
