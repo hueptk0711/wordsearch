@@ -145,7 +145,7 @@ def generate(request):
         return render(request, 'wordsearch.html', {
             'message': 'Puzzle created and saved successfully!',
             'image' : img_path,
-            'pdf_filename': pdf_filename,
+            'pdf_filename': img_path,
         })
 
     return render(request, 'wordsearch.html')
