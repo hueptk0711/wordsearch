@@ -10,7 +10,7 @@ import io
 import os
 import sys
 import fitz
-import logging
+import base64
 
 print(sys.executable)
 
@@ -82,7 +82,10 @@ def logout(request):
 
 def wordsearch(request):
     return render(request, 'wordsearch.html')
-
+def image_to_base64(image_path):
+    with open(image_path, "rb") as image_file:
+        encoded_string = base64.b64encode(image_file.read()).decode('utf-8')
+    return encoded_string
 # create function
 def generate(request):
     if request.method == 'POST':
@@ -138,7 +141,7 @@ def generate(request):
         pdf_history.save()  
         return render(request, 'wordsearch.html', {
             'message': 'Puzzle created and saved successfully!',
-            'image' : img_path,'media_url':settings.MEDIA_URL,
+            'image' : 'data:image/jpeg;base64,'+image_to_base64(img_path),
             'pdf_filename': pdf_filename,
         })
 
