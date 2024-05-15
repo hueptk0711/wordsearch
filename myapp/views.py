@@ -124,13 +124,15 @@ def generate(request):
         if not os.path.exists(media_folder):
             os.makedirs(media_folder, exist_ok=True)
         # D:\VSC\word-search-AI\myproject\static\media\accounts
-        img_path = os.path.join(settings.MEDIA_ROOT, img_name)
+        img_path = os.path.join(media_folder, img_name)
         
         # save as image
         pages = convert_from_path(path, first_page=1, last_page=1)
         if pages:
+            print('exit')
             first_page = pages[0]
             first_page.save(img_path, 'PNG')
+            print(img_path)
 
         # Save the generated PDF to the model PDFHistory
         pdf_history = PDFHistory(user=user, pdf=path, image = img_path)

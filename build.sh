@@ -3,7 +3,6 @@
 set -o errexit
 
 pip install -r requirements.txt
-sudo apt install poppler-utils
 
 python manage.py collectstatic --no-input
 python manage.py migrate
