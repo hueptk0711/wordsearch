@@ -22,66 +22,6 @@ class Circle(Ellipse):
         super().__init__()
 
 
-class Club(CompoundMask):
-    min_size = 18
-
-    def __init__(self) -> None:
-        super().__init__()
-
-    def generate(self, puzzle_size: int) -> None:
-        if puzzle_size < self.min_size:
-            raise ValueError(
-                f"Puzzle size >= {self.min_size} required \
-for a {self.__class__.__name__} mask."
-            )
-
-        self.puzzle_size = puzzle_size
-        self._mask = self.build_mask(puzzle_size, self.ACTIVE)
-
-        center = self.puzzle_size // 2
-        center_offset = self.puzzle_size % 2 - 1
-        ellipse_size = center - (center % 2 - 1)
-
-        # draw the 3 club circles
-        top_ellipse = Ellipse(
-            ellipse_size,
-            ellipse_size,
-            (center, center - ellipse_size // 2),
-        )
-        left_ellipse = Ellipse(
-            ellipse_size,
-            ellipse_size,
-            (center - ellipse_size // 2, center + ellipse_size // 4),
-            method=2,
-        )
-        right_ellipse = Ellipse(
-            ellipse_size,
-            ellipse_size,
-            (center + ellipse_size // 2, center + ellipse_size // 4),
-            method=2,
-        )
-
-        base_size = ellipse_size // 4 - (ellipse_size // 4 % 2 - 1)
-        base_vert = Rectangle(
-            base_size,
-            center,
-            (center - base_size // 2 + center_offset, center),
-            method=2,
-        )
-        base_horz = Rectangle(
-            ellipse_size,
-            2,
-            (center - ellipse_size // 2 + center_offset, self.puzzle_size - 2),
-            method=2,
-        )
-
-        self.masks = [top_ellipse, left_ellipse, right_ellipse, base_vert, base_horz]
-
-        for mask in self.masks:
-            mask.generate(self.puzzle_size)
-            self._apply_mask(mask)
-
-
 class Diamond(RegularPolygon):
     def __init__(self) -> None:
         super().__init__(vertices=4, angle=90)
@@ -111,55 +51,6 @@ class Donut(CompoundMask):
             hole += 1
         return donut, hole
 
-
-class Fish(CompoundMask):
-    min_size = 18
-
-    def __init__(self) -> None:
-        super().__init__()
-
-    def generate(self, puzzle_size: int) -> None:
-        if puzzle_size < self.min_size:
-            raise ValueError(
-                f"Puzzle size >= {self.min_size} required \
-for a {self.__class__.__name__} mask."
-            )
-
-        self.puzzle_size = puzzle_size
-        self._mask = self.build_mask(puzzle_size, self.ACTIVE)
-
-        center = self.puzzle_size // 2
-        body_width = int(self.puzzle_size // 1.25)
-        body_height = int(self.puzzle_size // 1.5 - (self.puzzle_size // 1.5 % 2 - 1))
-        body = Ellipse(
-            body_width,
-            body_height,
-            (
-                self.puzzle_size
-                - body_width // 2
-                - (1 if self.puzzle_size % 2 != 0 and body_width % 2 != 0 else 0),
-                center,
-            ),
-        )
-        fin = Ellipse(
-            body_height,
-            body_height,
-            (0, center),
-            method=2,
-        )
-
-        fin_cutout = Ellipse(
-            body_height,
-            body_height,
-            (0 - body_height // 4, center),
-            method=3,
-        )
-
-        self.masks = [body, fin, fin_cutout]
-
-        for mask in self.masks:
-            mask.generate(self.puzzle_size)
-            self._apply_mask(mask)
 
 
 class Flower(CompoundMask):

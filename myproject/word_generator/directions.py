@@ -61,13 +61,13 @@ LEVEL_DIRS: dict[int, set[Direction]] = {
         Direction.W,
         Direction.NW,
     },
-    7: {  # diagonals only
+    6: {  # diagonals only
         Direction.NE,
         Direction.SE,
         Direction.NW,
         Direction.SW,
     },
-    8: {  # no diagonals
+    7: {  # no diagonals
         Direction.N,
         Direction.E,
         Direction.W,
